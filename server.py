@@ -21,8 +21,10 @@ with connection:
     user = User(getting_username)
     print(user.name + ' enter chat. ' + 'Connected by ' + str(address[0]) + '.')  # WTF is address[1] ???
     while True:
-        input_messages = connection.recv(2048).decode("utf8")
-        user.message = input_messages
-        print('[' + strftime("%H:%M:%S", localtime()) + ']' + user.name + ':' + user.message)
-        if not input_messages:
+        input_message = connection.recv(2048).decode("utf8")
+        user.message = input_message
+        processed_message = str('[' + strftime("%H:%M:%S", localtime()) + '] ' + user.name + ': ' + user.message)
+        connection.send(processed_message.encode('utf8'))
+        print(processed_message)
+        if not input_message:
             break

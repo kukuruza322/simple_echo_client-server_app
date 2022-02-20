@@ -12,7 +12,9 @@ print("Welcome, " + message + "!")
 
 while True:
     message = input('Enter your text: ')
-    connection.send(message.encode('utf8'))
     if message == "exit":
-        connection.close()  # close connection after message
+        connection.close()  # close connection after EXIT code
         break
+    connection.send(message.encode('utf8'))
+    read_server_response = connection.recv(2048)
+    print(read_server_response.decode('utf8'))
